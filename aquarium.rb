@@ -25,7 +25,7 @@ class Aquarium
 			aquarium_show
 			next_step
 			status
-			sleep 1
+			sleep 3
 		end
 	end
 
@@ -99,27 +99,26 @@ class Aquarium
 
 		@fish_list.each do |fish|
 
-		fish.age += 1
+			fish.age += 1
 
-		# fish reproduce, fish eat
-		current_cell = who_is_here(fish.x, fish.y)
-		current_cell.each do |inside_fish|
-			if fish.can_reproduce?(inside_fish)
-				@fish_list << fish.reproduce(rand(0..(@width-1)), rand(0..(@height-1)))
-				# puts "Только что родилось новых рыбешек: #{fish.class}"
-			end
-			if fish.name == "Щ"
-				if fish.can_eat?(inside_fish)
-					fish.eat(inside_fish)
-					inside_fish.die
-					# puts "ЩУЧКА съела КАРАСИКА!!!"
-				elsif !fish.can_eat?(inside_fish) && fish.age % 2 == 0
-					fish.grow_thin
+			# fish reproduce, fish eat
+			current_cell = who_is_here(fish.x, fish.y)
+
+			current_cell.each do |inside_fish|
+				if fish.can_reproduce?(inside_fish)
+					@fish_list << fish.reproduce(rand(0..(@width-1)), rand(0..(@height-1)))
+				end
+				if fish.name == "Щ"
+					if fish.can_eat?(inside_fish)
+						fish.eat(inside_fish)
+						inside_fish.die
+					elsif !fish.can_eat?(inside_fish) && fish.age % 2 == 0
+						fish.grow_thin
+					end
 				end
 			end
-		end
 
-		# new coordinates
+			# new coordinates
 			if fish.x == 0
 				fish.x += rand(0..1)
 			elsif fish.x == @width-1
@@ -136,7 +135,7 @@ class Aquarium
 				fish.y += rand(-1..1)
 			end
 
-		# new curcian weight
+			# new curcian weight
 			if fish.name == "К" && fish.age % 3 == 0
 				fish.gain_weight
 			end
