@@ -25,7 +25,7 @@ class Aquarium
 			aquarium_show
 			next_step
 			status
-			sleep 3
+			sleep 1
 		end
 	end
 
